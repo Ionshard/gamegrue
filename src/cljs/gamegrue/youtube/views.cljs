@@ -1,5 +1,6 @@
 (ns gamegrue.youtube.views
   (:require [clojure.string :as st]
+            [reagent.core :as reagent]
             [re-frame.core :as re-frame]
             [soda-ash.core :as sa]
             [gamegrue.config :as config]
@@ -10,33 +11,53 @@
   [sa/Button {:primary true
               :icon :download
               :onClick #(re-frame/dispatch [::events/fetch-playlist-items config/PLAYLIST])}
-   "Fetch Items"])
+   "View More"])
 
 (defn thumbnail-src
   ([video] (thumbnail-src :medium video))
   ([quality video]
    (get-in video [:thumbnails quality :url])))
 
-(defn video-card
+(defn video-modal
+  [{:keys [title description] :as video} on-close]
+  [sa/Modal {:closeIcon true
+             :open true
+             :onClose on-close}
+   [sa/ModalHeader title]
+   [sa/ModalContent
+    [sa/Embed {:source :youtube
+               :placeholder (thumbnail-src :high video)
+               :id (get-in video [:resourceId :videoId])}]
+    [sa/ModalDescription description]]])
+
+(defn video-card-internal
   [{:keys [title] :as video}]
-  [sa/Card {:raised true
-            :color "red"}
-   [sa/Image {:src (thumbnail-src video)}]
-   [sa/CardHeader title]])
+  (let [open? (reagent/atom false)]
+    (fn [{:keys [title] :as video}]
+      [sa/Card {:raised true
+                :onClick #(swap! open? not)
+                :color "red"
+                :centered true}
+       [sa/Image {:src (thumbnail-src video)}]
+       [sa/CardHeader [sa/Header title]]
+       (when @open?
+         [video-modal video #(swap! open? not)])])))
+
+(defn video-card
+  [video]
+  [video-card-internal video])
 
 (defn video-deck
   [playlist-id]
-  (let [playlist-items (re-frame/subscribe [::subs/playlist-items playlist-id])]
-    (fn []
-      (let [playlist-items @playlist-items]
-        [sa/Container
-         [sa/Header (count playlist-items) " videos for " config/PLAYLIST]
-         (into [sa/CardGroup {}]
-               (map video-card playlist-items))]))))
+  (into [sa/CardGroup {}]
+        (map video-card @(re-frame/subscribe [::subs/playlist-items playlist-id]))))
 
 
 (defn test-component []
   [sa/Container
-   [sa/Header "Testing Youtube Components"]
+   [sa/Header "Latest Videos"]
    [video-deck config/PLAYLIST]
-   [sa/ButtonGroup [fetch-btn]]])
+   [sa/Segment {:inverted true
+                :textAlign :center}
+    [sa/ButtonGroup {:attached :right} [fetch-btn]]
+    "Copyright Corey Ling 2017"]])

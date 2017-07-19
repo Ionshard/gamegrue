@@ -26,7 +26,8 @@
                   :params {:key config/APIKEY
                            :part "snippet"
                            :playlistId playlist-id
-                           :pageToken (get-in db [db/key :playlist-items playlist-id :next-page-token])}
+                           :pageToken (get-in db [db/key :playlist-items playlist-id :next-page-token])
+                           :maxResults 30}
                   :response-format (ajax/json-response-format {:keywords? true})
                   :on-success [::update-playlist-items playlist-id]}}))
 

@@ -19,17 +19,15 @@
 
 ;; header
 
-(defn nav-bar []
-  [sa/Menu {:floated :right
-            :fluid false}
-   [sa/MenuItem {:href "#/"} "Home"]
-   [sa/MenuItem {:href "#/about"} "About"]])
-
 (defn header []
-  [sa/GridRow {:color :blue
-               :columns 2}
-   [sa/GridColumn [sa/Header {:size :huge} "Game Grue"]]
-   [sa/GridColumn [nav-bar]]])
+  [sa/Menu {:fluid true
+            :inverted true
+            :color :blue}
+   [sa/MenuItem {:header true} "Game Grue"]
+
+   [sa/MenuMenu {:position :right}
+    [sa/MenuItem {:href "#/"} "Home"]
+    [sa/MenuItem {:href "#/about"} "About"]]])
 
 ;; main
 
@@ -43,7 +41,6 @@
   [panels panel-name])
 
 (defn main-panel []
-  [sa/Grid
+  [sa/Container
    [header]
-   [sa/GridRow
-    [show-panel @(re-frame/subscribe [::subs/active-panel])]]])
+   [show-panel @(re-frame/subscribe [::subs/active-panel])]])
