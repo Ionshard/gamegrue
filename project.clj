@@ -8,13 +8,14 @@
                  [day8.re-frame/http-fx "0.1.4"]
                  [soda-ash "0.3.0"
                   :exclusions [cljsjs/react]]
+                 [http-kit "2.2.0"]
                  [adzerk/env "0.4.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 
   :min-lein-version "2.5.3"
 
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "dev"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 

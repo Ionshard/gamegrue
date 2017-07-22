@@ -23,7 +23,9 @@
   [sa/Menu {:fluid true
             :inverted true
             :color :blue}
-   [sa/MenuItem {:header true} "Game Grue"]
+   [sa/MenuItem {:header true}
+    [sa/Image {:src "img/logo-wide-nobg.png"
+               :size :small}]]
 
    [sa/MenuMenu {:position :right}
     [sa/MenuItem {:href "#/"} "Home"]
