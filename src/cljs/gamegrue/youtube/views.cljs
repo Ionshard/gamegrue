@@ -39,7 +39,8 @@
                 :color "red"
                 :centered true}
        [sa/Image {:src (thumbnail-src video)}]
-       [sa/CardHeader [sa/Header title]]
+       [sa/CardContent
+        [sa/CardHeader title]]
        (when @open?
          [video-modal video #(swap! open? not)])])))
 
@@ -56,7 +57,6 @@
   [:div.g-ytsubscribe {:data-channelid channel-id
                        :data-layout "default"
                        :data-code "default"}])
-
 
 (defn test-component []
   [sa/Container
