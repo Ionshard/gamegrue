@@ -2,15 +2,14 @@
   (:require [re-frame.core :as re-frame]
             [soda-ash.core :as sa]
             [gamegrue.subs :as subs]
-            [gamegrue.youtube.views :as youtube.views]
-            [gamegrue.config :as config]))
+            [gamegrue.config :as config]
+            [gamegrue.youtube.views :as youtube.views]))
 
 ;; home
 
 (defn home-panel []
   [sa/Container
    [youtube.views/test-component]])
-
 
 ;; about
 
