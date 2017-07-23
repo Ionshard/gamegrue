@@ -52,6 +52,11 @@
   (into [sa/CardGroup {}]
         (map video-card @(re-frame/subscribe [::subs/playlist-items playlist-id]))))
 
+(defn subscribe-button [channel-id]
+  [:div.g-ytsubscribe {:data-channelid channel-id
+                       :data-layout "default"
+                       :data-code "default"}])
+
 
 (defn test-component []
   [sa/Container

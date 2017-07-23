@@ -2,7 +2,8 @@
   (:require [re-frame.core :as re-frame]
             [soda-ash.core :as sa]
             [gamegrue.subs :as subs]
-            [gamegrue.youtube.views :as youtube.views]))
+            [gamegrue.youtube.views :as youtube.views]
+            [gamegrue.config :as config]))
 
 ;; home
 
@@ -26,6 +27,8 @@
    [sa/MenuItem {:header true}
     [sa/Image {:src "img/logo-wide-nobg.png"
                :size :small}]]
+   [sa/MenuItem
+    [youtube.views/subscribe-button config/CHANNEL]]
 
    [sa/MenuMenu {:position :right}
     [sa/MenuItem {:href "#/"} "Home"]
