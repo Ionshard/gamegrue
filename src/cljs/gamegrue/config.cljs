@@ -6,5 +6,6 @@
 
 (env/def
   APIKEY :required
+  CHANNEL "UCJPjTumUwnA8vsLcTKzsQfg"
   PLAYLIST "UUJPjTumUwnA8vsLcTKzsQfg"
  )
